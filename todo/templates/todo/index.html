@@ -1,0 +1,25 @@
+{% extends "todo/layout.html" %}
+
+{% block title %}
+<title>Todo App</title>
+{% endblock %}
+
+{% block content %}
+    {% for x in items %}
+        <h3>{{ x.name }}</h3>
+        <p>{{ x.created_at|date:"D d M Y" }}</p>
+        <p>{{ x.description }}</p>
+        <a href="{% url 'todo:edit' x.id %}">
+            <button type="submit">Edit</button>
+        </a>
+        <form action="{% url 'todo:destroy' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ x.id }}">
+            <button type="submit">Finish</button>
+        </form>
+        <hr>
+    {% endfor %}
+    <a href="{% url 'todo:create' %}">
+        <button type="submit">Create new Todo</button>
+    </a>
+{% endblock %}
